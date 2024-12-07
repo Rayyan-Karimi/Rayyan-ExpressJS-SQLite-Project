@@ -1,23 +1,35 @@
 {
-  "name": "nodejs-express-mysql",
+  "name": "rayyan-expressjs-sqlite",
   "version": "1.0.0",
-  "main": "server.js",
-  "type": "module",
+  "description": "dummy crud api project",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rayyan-Karimi/Rayyan-ExpressJS-SQLite-Project.git"
+  },
   "keywords": [
-    "nodejs",
+    "expressjs",
     "express",
-    "mysql",
-    "restapi"
+    "nodejs",
+    "sql",
+    "api",
+    "rest"
   ],
   "author": "rayyan",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Rayyan-Karimi/Rayyan-ExpressJS-SQLite-Project/issues"
+  },
+  "homepage": "https://github.com/Rayyan-Karimi/Rayyan-ExpressJS-SQLite-Project#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
   }
 }
