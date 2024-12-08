@@ -12,13 +12,13 @@ Tutorial.create = (newTutorial, response) => {
     VALUES(?,?,?)`
     const params = [newTutorial.title, newTutorial.description, newTutorial.published]
 
-    sql.run(query, params, (err) => {
+    sql.run(query, params, function (err) {
         if (err) {
             console.error(err.message)
             response(err, null)
             return
         } else {
-            console.log("Created the tutorial:", { id: this.lastID, ...newTutorial })
+            console.log("Created the tutorial:", { id: this.lastID, ...newTutorial }) // the last inserted row
             response(null, { id: this.lastID, ...newTutorial })
         }
     })
@@ -44,9 +44,9 @@ Tutorial.readAll = (title, response) => {
     })
 }
 
-Tutorial.readPublished = (title, response) => {
+Tutorial.readPublished = (response) => {
     const query = `Select * from tutorials where published = true`
-    sql.run(query, (err, result) => {
+    sql.all(query, (err, result) => {
         if (err) {
             console.error(err.message)
             response(err, null)
@@ -60,7 +60,7 @@ Tutorial.readPublished = (title, response) => {
 
 Tutorial.findById = (id, findByIdResponse) => {
     const query = `Select * from tutorials where id = ${id}`
-    sql.get(query, (err, result) => {
+    sql.all(query, (err, result) => {
         if (err) {
             console.error(err.message)
             findByIdResponse(err, null)
@@ -80,26 +80,27 @@ Tutorial.updateById = (id, tutorial, updateByIdResponse) => {
     Update tutorials set title = ?, description = ?, published= ?
     where id = ?
     `
-    const params = [tutorial.title, tutorial.description, tutorial.published]
-    sql.run(query, params, (err) => {
+    const params = [tutorial.title, tutorial.description, tutorial.published, id]
+    sql.run(query, params, function(err) {
         if (err) {
             console.error("Error updating:", err.message)
             updateByIdResponse(null, err)
             return;
         }
         if (this.changes === 0) {
+            console.log("No tutorials found with this ID:", id)
             updateByIdResponse({ message: "not_found" })
             return;
         } else {
-            console.log("Updated by id", id, ...tutorial)
+            console.log("Updated by id", id, tutorial)
             updateByIdResponse(null, { id, ...tutorial })
         }
     })
 }
 
-Tutorial.removeById = (id, tutorial, deleteByIdResponse) => {
+Tutorial.removeById = (id, deleteByIdResponse) => {
     const query = `Delete from tutorials where id = ?`
-    sql.run(query, id, (err) => {
+    sql.run(query, [id], function (err) {
         if (err) {
             console.error("Error deleting by ID:", err.message)
             deleteByIdResponse(null, err)
@@ -116,7 +117,7 @@ Tutorial.removeById = (id, tutorial, deleteByIdResponse) => {
 
 Tutorial.removeAll = (deleteByIdResponse) => {
     const query = `Delete from tutorials`
-    sql.run(query, (err) => {
+    sql.run(query, function (err) {
         if (err) {
             console.error("Error deleting All:", err.message)
             deleteByIdResponse(null, err)

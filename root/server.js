@@ -1,5 +1,5 @@
-import express from 'express'
 import cors from 'cors'
+import express from 'express'
 const app = express()
 
 var corsOptions = {
@@ -14,10 +14,12 @@ app.get("/", (request, response) => {
     response.json({ message: "Welcome to Rayyan's application." })
 })
 
-import { db, tableCreationQuery } from './tableCreation.js'
+// import { db, tableCreationQuery } from './tableCreation.js'
 // db.run(tableCreationQuery)
 
 // Add route asap. //
+import tutorialRoutes from "../app/routes/tutorial.routes.js"
+tutorialRoutes(app);
 
 const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {
